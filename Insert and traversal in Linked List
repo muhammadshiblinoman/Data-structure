@@ -1,0 +1,136 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Traversal The Linked List
+void traversal(Node* temp) {
+    while (temp != nullptr) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << '\n';
+}
+
+// Insert A new node in the Beginning
+void insertBeginning(Node*& head) { // Pass by reference
+    int value;
+    cout << "Inserting New Node at the beginning.\n";
+    cin >> value;
+    Node* newNode = new Node(); // Use new instead of malloc
+
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+    traversal(head);
+}
+
+// Insert A new node in the End
+void insertEnd(Node*& head) { // Pass by reference
+    int value;
+    cout << "Inserting New Node at the end.\n";
+    cin >> value;
+    Node* newNode = new Node(); // Use new instead of malloc
+    newNode->data = value;
+    newNode->next = nullptr;
+
+    if (head == nullptr) {
+        head = newNode;
+    } else {
+        Node* temp = head;
+        while (temp->next != nullptr) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+    traversal(head);
+}
+
+// Insert A new node in the given Location
+void insertAfterLocation(Node*& head, int pos) { // Pass by reference
+    int value;
+    Node* newNode = new Node(); // Initialize newNode here
+    cout << "Insert A new node at location " << pos << ".\n";
+    cin >> value;
+    newNode->data = value;
+
+    if (pos < 1) {
+        cout << "Invalid Position!\n";
+        delete newNode; // Clean up
+        return;
+    }
+
+    if (pos == 1) {
+        newNode->next = head;
+        head = newNode;
+    } else {
+        Node* temp = head;
+        for (int i = 1; i < pos - 1 && temp != nullptr; ++i) {
+            temp = temp->next;
+        }
+        if (temp == nullptr) {
+            cout << "Position out of bounds!\n";
+            delete newNode; // Clean up
+            return;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+    traversal(head);
+}
+
+int main() {
+    Node* Mhead = nullptr;
+    int choose;
+
+    // Represent the Linked List
+    cout << "Enter values for the linked list (0 to end):\n";
+    while (true) {
+        cin >> choose;
+        if (choose == 0) {
+            break;
+        }
+        Node* newNode = new Node();
+        newNode->data = choose;
+        newNode->next = nullptr;
+
+        if (Mhead == nullptr) {
+            Mhead = newNode;
+        } else {
+            Node* temp = Mhead;
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+    // Insert a new Node in the beginning
+    insertBeginning(Mhead);
+    cout << '\n';
+
+    // Insert a new Node at the End
+    insertEnd(Mhead);
+    cout << '\n';
+
+    // Insert A new node in the given Location
+    int position;
+    cout << "Enter position to insert a new node: ";
+    cin >> position;
+    insertAfterLocation(Mhead, position);
+    cout << "Final list: ";
+    traversal(Mhead);
+
+    // Clean up memory (optional)
+    Node* current = Mhead;
+    while (current != nullptr) {
+        Node* next = current->next;
+        delete current;
+        current = next;
+    }
+
+    return 0;
+}
