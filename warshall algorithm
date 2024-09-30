@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define inf 1e9;
+
+const int N = 100;
+int adj[N][N];
+string path[N][N];
+
+void warshall( ) {
+    for( int k = 0; k < 4; ++k ) {
+        for( int i = 0; i < 4; ++i ) {
+            for( int j = 0; j < 4; ++j ) {
+                if( (adj[i][k]+adj[k][j]) < adj[i][j] ) {
+                    adj[i][j] = (adj[i][k]+adj[k][j]);
+                    path[i][j] = path[i][k] + "->" + path[k][j];
+                } else {
+                    continue;
+                }
+            }
+        }
+    }
+}
+
+void print() {
+    for( int i = 0; i < 4; ++i ) {
+        for( int j = 0; j < 4; ++j ) {
+            cout << adj[i][j] << " ";
+        } cout << '\n';
+    }
+    for( int i = 0; i < 4; ++i ) {
+        for( int j = 0; j < 4; ++j ) {
+            cout << path[i][j] << "    ";
+        } cout << '\n';
+    }
+}
+
+int main() {
+    int mat[4][4] = { {0,3,-1,5},
+                      {2,0,-1,4},
+                      {-1,1,0,-1},
+                      {-1,-1,2,0} 
+                    };
+
+    for( int i = 0; i < 4; ++i ) {
+        for( int j = 0; j < 4; ++j ) {
+            if( mat[i][j] == -1 ) {
+                adj[i][j] = inf;
+                path[i][j] = "Infinitty";
+            } else {
+                adj[i][j] = mat[i][j];
+                string s = "";
+                s += to_string(i+1) + "->" + to_string(j+1);
+                path[i][j] = s;
+            }
+        }
+    }
+
+    warshall();
+    print();
+    
+}
