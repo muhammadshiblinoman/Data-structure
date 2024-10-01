@@ -1,126 +1,106 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct Node {
-   int data;
-   Node* next;
+int n;
+
+struct node{
+    int data;
+    node *next;
 };
 
-// Traversal The Linked List
-void traversal(Node* temp) {
-   while (temp != nullptr) {
-     cout << temp->data << " ";
-     temp = temp->next;
-   }
-   cout << '\n';
+void traversal( node *head ) {
+    node *temp = head;
+    while( temp != 0 ) {
+        cout << temp->data << "  ";
+        temp = temp->next;
+    } cout << '\n';
 }
 
-// Insert A new node in the Beginning
-void insertBeginning(Node*& head) {
-   int value;
-   cout << "Inserting New Node at the beginning.\n";
-   cin >> value;
-   Node* newNode = new Node();
-
-   newNode->data = value;
-   newNode->next = head;
-   head = newNode;
-   traversal(head);
+void insertBeginning( node *&head ) {
+    int value;
+    cin >> value;
+    node *newNode = new node();
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+    cout << "Adding new Node in the beginning!\n";
+    traversal(head);
 }
 
-// Insert A new node in the End
-void insertEnd(Node*& head) {
-   int value;
-   cout << "Inserting New Node at the end.\n";
-   cin >> value;
-   Node* newNode = new Node();
-   newNode->data = value;
-   newNode->next = nullptr;
+void insertEnd( node *&head ) {
+    int value;
+    cin >> value;
+    node *newNode = new node();
+    newNode->data = value;
+    newNode->next = 0;
 
-   if (head == nullptr) {
-     head = newNode;
-   } else {
-     Node* temp = head;
-     while (temp->next != nullptr) {
-         temp = temp->next;
-     }
-     temp->next = newNode;
-   }
-   traversal(head);
+    if( head == 0 ) {
+        head = newNode;
+        traversal(head);
+        return;
+    }
+
+    node *temp = head;
+
+    while( temp->next != 0 ) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    cout << "Adding new node in the End!\n";
+    traversal(head);
 }
 
-// Insert A new node in the given Location
-void insertAfterLocation(Node*& head, int pos) {
-   int value;
-   Node* newNode = new Node();
-   cout << "Insert A new node at location " << pos << ".\n";
-   cin >> value;
-   newNode->data = value;
+void insertAfterLocation( node *&head, int pos ) {
+    if( pos < 1 || pos > n ) {
+        cout << "Invalid Position!\n";
+        return;
+    } else {
+        pos--;
+        node *newNode = new node();
+        int item;
+        cin >> item;
+        newNode->data = item;
+        newNode->next = 0;
 
-   if (pos < 1) {
-     cout << "Invalid Position!\n";
-     return;
-   }
-
-   if (pos == 1) {
-     newNode->next = head;
-     head = newNode;
-   } else {
-     Node* temp = head;
-     for (int i = 1; i < pos - 1 && temp != nullptr; ++i) {
-         temp = temp->next;
-     }
-     if (temp == nullptr) {
-         cout << "Position out of bounds!\n";
-         return;
-     }
-     newNode->next = temp->next;
-     temp->next = newNode;
-   }
-   traversal(head);
+        node *temp = head;
+        while( pos-- ) {
+            temp = temp->next;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+        cout << "Adding new Node in the Given Position!\n";
+        traversal(head);
+    }
 }
 
-int main() {
-   Node* Mhead = nullptr;
-   int choose;
+signed main() {
+    node *head = 0;
+    int item;
 
-   // Represent the Linked List
-   cout << "Enter values for the linked list (0 to end):\n";
-   while (true) {
-     cin >> choose;
-     if (choose == 0) {
-         break;
-     }
-     Node* newNode = new Node();
-     newNode->data = choose;
-     newNode->next = nullptr;
+    while( true ) {
+        cin >> item;
+        if( item == 0 ) {
+            break;
+        }
 
-     if (Mhead == nullptr) {
-         Mhead = newNode;
-     } else {
-         Node* temp = Mhead;
-         while (temp->next != nullptr) {
-             temp = temp->next;
-         }
-         temp->next = newNode;
-     }
-   }
+        node *newNode = new node();
+        newNode->data = item;
+        newNode->next = 0;
+        n++;
 
-   // Insert a new Node in the beginning
-   insertBeginning(Mhead);
-   cout << '\n';
-
-   // Insert a new Node at the End
-   insertEnd(Mhead);
-   cout << '\n';
-
-   // Insert A new node in the given Location
-   int position;
-   cout << "Enter position to insert a new node: ";
-   cin >> position;
-   insertAfterLocation(Mhead, position);
-   cout << "Final list: ";
-   traversal(Mhead);
-
-   return 0;
+        if( head == 0 ) {
+            head = newNode;
+        } else {
+            node *temp = head;
+            while( temp->next != 0 ) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+    traversal(head);
+    insertBeginning(head);
+    insertEnd(head);
+    int pos; cin >> pos;
+    insertAfterLocation(head, pos-1 );
 }
