@@ -1,0 +1,81 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N = 1000;
+int top = 0;
+int stk[N];
+
+void push(int value) {
+    stk[top++] = value;
+}
+
+int pop( ) {
+    if( top < 0 ) {
+        cout << "Invalid Operation!\n";
+        return 0;
+    }
+    return stk[--top];
+}
+
+int claculation( int top1, int top2, char ch ) {
+    int ans = 0;
+    if( ch == '+' ) {
+        // Postfix operation er jonno
+        ans = top2+top1;
+
+        // // Prefix operation er jonno 
+        // ans = top1+top2;
+    } else if( ch == '-' ) {
+        // Postfix operation er jonno
+        ans = top2-top1;
+
+        // // Prefix operation er jonno 
+        // c = top1-top2;
+    } else if( ch == '*' ) {
+        // Postfix operation er jonno
+        ans = top2*top1;
+
+        // // Prefix operation er jonno 
+        // ans = top1*top2;
+    } else if( ch == '/' ) {
+        // Postfix operation er jonno
+        ans = top2/top1;
+
+        // // Prefix operation er jonno 
+        // ans = top1/top2;
+    } else if( ch == '^' ) {
+        // // Postfix operation er jonno
+        ans = round(pow(top2,top1));
+
+        // // Prefix operation er jonno 
+        // ans = round(pow(top1,top2));  
+    }
+    return ans;
+}
+
+int main() {
+    string s;
+    cin >> s;
+
+    // // Prefix operation er jonno 
+    // for( int i = 0; i < s.size()/2; i++ ) {
+    //     int ch = s[i];
+    //     s[i] = s[s.size()-i-1];
+    //     s[s.size()-i-1] = ch;
+    // }
+
+    for( int i = 0; i < s.size(); i++  ) {
+        if( s[i] >= '0' && s[i] <= '9' ) {
+            int value = (s[i]-'0');
+            push(value);
+        } else {
+            int top1 = pop();
+            int top2 = pop();
+            int result = claculation( top1, top2, s[i] );
+            push(result);
+        }
+    }
+
+    cout << stk[top-1] << '\n';
+
+}
