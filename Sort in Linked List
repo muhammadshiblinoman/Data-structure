@@ -1,0 +1,129 @@
+#include <bits/stdc++.h>
+using namespace std;
+int n = 0;
+
+struct node {
+    int data;
+    node *next;
+};
+
+// Traversal of the Linked List...
+void traversal(node *head) {
+    node *temp = head;
+    while(temp != 0) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    } cout << "\n";
+}
+
+// Function to perform bubble sort on the linked list...
+void bubbleSort(node *&head) {
+    node *currNode = head;
+    int len = n;
+    int itr = 0;
+    bool swapped;
+
+    // Iterating over the whole linked list
+    while (itr < len) {
+        node *traverseNode = head;
+        node *prevNode = head;
+        swapped = false;
+
+        while (traverseNode->next) {
+
+            // Temporary pointer to store the next pointer of traverseNode
+            node *ptr = traverseNode->next;
+            if (traverseNode->data > ptr->data) {
+                swapped = true;
+                if (traverseNode == head) {
+
+                    // Performing swap operations and updating the head of the linked list
+                    traverseNode->next = ptr->next;
+                    ptr->next = traverseNode;
+                    prevNode = ptr;
+                    head = prevNode;
+                }
+                else {
+
+                    // Performing swap operation
+                    traverseNode->next = ptr->next;
+                    ptr->next = traverseNode;
+                    prevNode->next = ptr;
+                    prevNode = ptr;
+                }
+                continue;
+            }
+            prevNode = traverseNode;
+            traverseNode = traverseNode->next;
+        }
+
+        // If no swap occurred, break the loop
+        if (!swapped) {
+            break;
+        }
+
+        ++itr;
+    }
+}
+
+int main() {
+    node *head1 = 0, *temp, *head2 = 0;
+    int value;
+
+    while( true ) {
+        cin >> value;
+        if( value == 0 ) {
+            break;
+        }
+        n++;
+
+        node *newNode = new node();
+        newNode->data = value;
+        newNode->next = 0;
+
+        if( head1 == 0 ) {
+            head1 = temp = newNode;
+        } else {
+            temp = head1;
+            while( temp->next != 0 )  {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+    traversal(head1);
+
+    while( true ) {
+        cin >> value;
+        if( value == 0 ) {
+            break;
+        }
+        n++;
+
+        node *newNode = new node();
+        newNode->data = value;
+        newNode->next = 0;
+
+        if( head2 == 0 ) {
+            head2 = temp = newNode;
+        } else {
+            temp = head2;
+            while( temp->next != 0 )  {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+    traversal(head2);
+
+    // Creat new linked list head = head1+head2;
+    node *head = head1;
+    temp = head;
+    while( temp->next != 0 ) {
+        temp = temp->next;
+    }
+    temp->next = head2;
+    traversal(head);
+    bubbleSort(head);
+    traversal(head);
+}
