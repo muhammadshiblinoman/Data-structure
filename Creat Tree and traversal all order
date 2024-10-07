@@ -1,0 +1,88 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    Node *left, *right;
+};
+
+Node *creatNode( ) {
+    Node *newNode = new Node();
+    int value;
+    cin >> value;
+
+    newNode->data = value;
+    newNode->left = 0;
+    newNode->right = 0;
+    return newNode;
+}
+
+void inorderTraversal(Node* root) {
+    if (root == NULL) {
+        return;
+    }
+    inorderTraversal(root->left);
+
+    printf("%d ", root->data);
+
+    inorderTraversal(root->right);
+}
+
+void preorderTraversal(Node* root) {
+    if (root == NULL) {
+        return;
+    }
+    printf("%d ", root->data);
+
+    preorderTraversal(root->left);
+
+    preorderTraversal(root->right);
+}
+
+void postorderTraversal(Node* root) {
+    if (root == NULL) {
+        return;
+    }
+
+    postorderTraversal(root->left);
+
+    postorderTraversal(root->right);
+
+    printf("%d ", root->data);
+}
+
+
+int main() {
+    int choose;
+    Node *head = 0, *temp;
+    while( true ) {
+        cin >> choose;
+        if( choose == 0 ) {
+            break;
+        }
+
+        if( choose == 1 ) {
+            if(head == 0) {
+               temp = head = creatNode();
+            }
+        }
+        else if( choose == 2 ) {
+            while( temp->left != 0 ) {
+                temp = temp->left;
+            }
+            temp->left = creatNode();
+        }
+        else if( choose == 3 ) {
+            while( temp->right != 0 ) {
+                temp = temp->right;
+            }
+            temp->right = creatNode();
+        }
+    }
+    inorderTraversal(head);
+    cout << '\n';
+    preorderTraversal(head);
+    cout << '\n';
+    postorderTraversal(head);
+
+}
