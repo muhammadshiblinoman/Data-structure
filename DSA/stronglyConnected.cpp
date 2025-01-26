@@ -1,0 +1,72 @@
+#include <bits/stdc++.h>
+using namespace std;
+int const N = 10;
+int arr[N][N][N];
+int Arr[N][N];
+
+void Multiply()
+{
+    for (int p = 1; p < 4; ++p) {
+        for (int i = 0; i < 4; ++i)  {
+            for (int j = 0; j < 4; ++j)  {
+                for (int k = 0; k < 4; ++k)  {
+                    arr[p][i][j] += arr[0][i][k] * arr[p-1][k][j];
+                }
+            }
+        }
+    }
+}
+void Add() {
+    for( int i = 0; i < 4; i++ ) {
+        for( int j = 0; j < 4; j++ ) {
+            int temp = 0;
+            for( int k = 0; k < 4; k++ ) {
+                temp += arr[k][i][j];
+            }
+            if( temp > 0 ){
+                Arr[i][j] = 1;
+            }
+        }
+    }
+}
+void Print() {
+    for( int i = 0; i < 4; i++ ) {
+        for( int j = 0; j < 4; j++ ) {
+            for( int k = 0; k < 4; ++k ) {
+                cout << arr[i][j][k] << " ";
+            }
+            cout << '\n';
+        }
+        cout << '\n';
+    }
+}
+void Print1() {
+    for( int i = 0; i < 4; i++ ) {
+        for( int j = 0; j < 4; j++ ) {
+            cout << Arr[i][j] << " ";
+        }
+        cout << '\n';
+    }
+}
+int main()
+{
+    int matrix[4][4] = { {1, 0, 1, 0}, {0, 1, 0, 1}, {1, 0, 1, 0}, {0, 1, 0, 1} };
+    for( int i = 0; i < 4; i++ ) {
+        for( int j = 0;j < 4; j++ ) {
+            arr[0][i][j] = matrix[i][j];
+        }
+    }
+    
+    Multiply();
+    Add();
+    Print1();
+    for( int i = 0; i < 4; i++ ) {
+        for( int j = 0; j < 4; j++ ) {
+            if( Arr[i][j] == 0 ) {
+                cout << "Not Strongly connected!\n";
+                return 0;
+            }
+        }
+    }
+    cout << "Strongly connected!\n";
+}

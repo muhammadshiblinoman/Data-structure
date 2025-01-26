@@ -1,0 +1,106 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int n;
+
+struct node{
+    int data;
+    node *next;
+};
+
+void traversal( node *head ) {
+    node *temp = head;
+    while( temp != 0 ) {
+        cout << temp->data << "  ";
+        temp = temp->next;
+    } cout << '\n';
+}
+
+void insertBeginning( node *&head ) {
+    int value;
+    cin >> value;
+    node *newNode = new node();
+    newNode->data = value;
+    newNode->next = head;
+    head = newNode;
+    cout << "Adding new Node in the beginning!\n";
+    traversal(head);
+}
+
+void insertEnd( node *&head ) {
+    int value;
+    cin >> value;
+    node *newNode = new node();
+    newNode->data = value;
+    newNode->next = 0;
+
+    if( head == 0 ) {
+        head = newNode;
+        traversal(head);
+        return;
+    }
+
+    node *temp = head;
+
+    while( temp->next != 0 ) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    cout << "Adding new node in the End!\n";
+    traversal(head);
+}
+
+void insertAfterLocation( node *&head, int pos ) {
+    if( pos < 1 || pos > n ) {
+        cout << "Invalid Position!\n";
+        return;
+    } else {
+        pos--;
+        node *newNode = new node();
+        int item;
+        cin >> item;
+        newNode->data = item;
+        newNode->next = 0;
+
+        node *temp = head;
+        while( pos-- ) {
+            temp = temp->next;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+        cout << "Adding new Node in the Given Position!\n";
+        traversal(head);
+    }
+}
+
+signed main() {
+    node *head = 0;
+    int item;
+
+    while( true ) {
+        cin >> item;
+        if( item == 0 ) {
+            break;
+        }
+
+        node *newNode = new node();
+        newNode->data = item;
+        newNode->next = 0;
+        n++;
+
+        if( head == 0 ) {
+            head = newNode;
+        } else {
+            node *temp = head;
+            while( temp->next != 0 ) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+    traversal(head);
+    insertBeginning(head);
+    insertEnd(head);
+    int pos; cin >> pos;
+    insertAfterLocation(head, pos-1 );
+}
